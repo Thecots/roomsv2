@@ -1,0 +1,21 @@
+<a href="/">Volver</a>
+<p>Nombre de la sala</p>
+<input type="text" value="KLK" id="nombresala">
+<p>Número de jugadores</p>
+<input type="number" value="4" id="numerojugadores">
+<button onclick="crearSala()">Crear sala</button>
+<script>
+  function crearSala(){
+    fetch('/crearSala',{
+      method: 'POST',
+      body: {
+        nombresala: document.querySelector('#nombresala').value ,
+        numerojugadores: document.querySelector('#numerojugadores').value 
+      }
+    })
+    .then(r => r.json())
+    .then(r => {
+      if(r.ok) window.location.href = `/sala?id=${r.id}`
+    })
+  }
+</script>

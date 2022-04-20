@@ -1,0 +1,42 @@
+<h2>Salas</h2>
+<div class="salas">
+
+</div>
+<a href="/crearSala">Crear partida</a>
+
+<script defer>
+  const socket = io('http://localhost:3000')
+  socket.emit('send-chat-message','hola')
+
+class sala{
+  constructor(id,nombre,jugadores,jugadoresMax){
+    this.id = id
+    this.nombre = nombre
+    this.jugadores = jugadores
+    this.jugadoresMax = jugadoresMax
+  }
+  draw(){
+    document.querySelector('.salas').innerHTML += `
+      <div>
+        <p>${this.nombre} - ${this.jugadores}/${this.jugadoresMax} - <a href="/sala?id=${this.id}">Unirse</a></p>
+      </div>
+    `
+  }
+}
+
+function updateSalas(){
+  fetch('getSalas',{
+    method:'POST'
+  })
+  .then(r => r.json())
+  .then(r => {
+    if(r.ok){
+      r.salas.forEach(e => {
+        new sala(1,'unete',1,5).draw()
+      });
+    }
+  })
+}
+
+updateSalas()
+</script>
